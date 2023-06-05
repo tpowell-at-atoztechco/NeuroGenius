@@ -1,8 +1,8 @@
- , _                                                         
-/|/ \                          () |            o             
- |   |   _          ,_    __   /\/| _   _  _              ,  
- |   |  |/  |   |  /  |  /  \_/   ||/  / |/ |  |  |   |  / \_
- |   |_/|__/ \_/|_/   |_/\__//(__/ |__/  |  |_/|_/ \_/|_/ \/ 
+ _   _                       ____            _           
+| \ | | ___ _   _ _ __ ___  / ___| ___ _ __ (_)_   _ ___ 
+|  \| |/ _ \ | | | '__/ _ \| |  _ / _ \ '_ \| | | | / __|
+| |\  |  __/ |_| | | | (_) | |_| |  __/ | | | | |_| \__ \
+|_| \_|\___|\__,_|_|  \___/ \____|\___|_| |_|_|\__,_|___/
  
 #NeuroGenius - Open source, functioning MRI imaging (Using readily-accessible technology, all published and documented)
 
@@ -15,7 +15,8 @@ Primary Endpoints:
     3.) SUccessful remyeliniation on patients which can be witnessed in professional gadolinium-enhanced MRI imaging, which is universally reproducable.
     
 Secondary Endpoints:
-    1.) Decreased levels of cNfL levels in blood tests
-    2.) Increased evidence of oligodendrocyte stimulation in blood testing
+
+    1.) Decreased levels of cNfL levels in blood tests.
+    2.) Increased evidence of oligodendrocyte stimulation in blood testing should be conducive to a strong remylenation environment.
 
 This project was started by OpenSourceImaging.org's OSI² ONE (https://www.opensourceimaging.org/2023/01/09/first-open-source-mri-scanner-presented-the-osii-one/), and is based off of their hardware designs. For the moment, it gives us the ability to perform real-time MRI analysis, albeit somewhat low quality. Our goal is to build the technology from this point, and provide detailed documentation on how to build the MRI machine, operate the hardware and software, and build your own projects on top of it.
