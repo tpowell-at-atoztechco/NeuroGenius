@@ -1,0 +1,225 @@
+""" Macro to generate magnet pockets for the OSI² ONE magnet v1.0
+
+Date: 06.05.2022
+Original author and further questions: Lukas Winter, lukas.winter@ptb.de
+Overall project information: https://gitlab.com/osii-one
+
+Howto:
+The macro generates magnet pockets for a specific single ring of the OSI² ONE magnet. 
+These pockets can then be removed/cut out from the base by boolean operation. 
+The pockets were used for CNC'ing the magnet rings. For other production methods such as laser cutting or 3D printing, the corner holes can be removed.
+The correct number of magnets and radius needs to be adjusted/uncommented for the correct ring.
+
+Additional Info:
+- The number of magnets and ring radius was determined by using the following open source software tool: https://github.com/LUMC-LowFieldMRI/HalbachOptimisation
+- A single ring is positioned in the X-Y Plane with its thickness along z-direction
+
+"""
+
+import FreeCAD
+import Part
+import numpy as np
+
+#myDocument = App.newDocument("test")
+doc = App.activeDocument()
+
+## single magnet dimensions (cubic magnets only)
+magnetWidth = 12
+
+## number of magnets at a certain radius measured from Halbach ring center to center of a single magnet
+# ring1
+numMagnets1 = 76
+numMagnets2 = 83
+radius1 = 229
+radius2 = 250
+
+# ring2
+#numMagnets1 = 72
+#numMagnets2 = 79
+#radius1 = 217
+#radius2 = 238
+
+# ring3 & ring5
+#numMagnets1 = 74
+#numMagnets2 = 81
+#radius1 = 223
+#radius2 = 244
+
+# ring4
+#numMagnets1 = 75
+#numMagnets2 = 82
+#radius1 = 225
+#radius2 = 246
+
+# ring6
+#numMagnets1 = 67
+#numMagnets2 = 74
+#radius1 = 202
+#radius2 = 223
+
+# ring7
+#numMagnets1 = 74
+#numMagnets2 = 81
+#radius1 = 223
+#radius2 = 244
+
+# ring8
+#numMagnets1 = 76
+#numMagnets2 = 83
+#radius1 = 228
+#radius2 = 249
+
+# ring9
+#numMagnets1 = 76
+#numMagnets2 = 83
+#radius1 = 229
+#radius2 = 250
+
+# ring10
+#numMagnets1 = 75
+#numMagnets2 = 82
+#radius1 = 227
+#radius2 = 248
+
+# ring11, ring12, ring13
+#numMagnets1 = 57
+#numMagnets2 = 64
+#numMagnets3 = 71
+#radius1 = 171
+#radius2 = 192
+#radius3 = 213
+
+magnetAngles1 = np.linspace(0, 2*np.pi, numMagnets1, endpoint=False)
+magnetAngles2 = np.linspace(0, 2*np.pi, numMagnets2, endpoint=False)
+#magnetAngles3 = np.linspace(0, 2*np.pi, numMagnets3, endpoint=False)		#uncomment for third magnet row with radius3 if needed
+
+# Halbach orientation k=2
+k = 2
+
+## CNC related parameters
+# pocket depth correction
+dz = 2
+# reference corners for CNC
+millDiameterCorner = 3
+millOffsetCorner = 2		#diagonal offset from cornertip towards magnet center
+# holes to remove magnets
+pocketHoleDiameter = 3
+
+## create magnet pockets
+# radius1
+for angle in magnetAngles1:
+	# magnet pockets
+	box = App.ActiveDocument.addObject("Part::Box", "magnetR1")
+	box.Placement = App.Placement(App.Vector(radius1*np.cos(angle)-np.cos(k*angle+np.pi/4)*magnetWidth/np.sqrt(2), radius1*np.sin(angle)-np.sin(k*angle+np.pi/4)*magnetWidth/np.sqrt(2), dz), App.Rotation(App.Vector(0,0,1),np.degrees(angle*k)))
+	box.Width = magnetWidth
+	box.Length = magnetWidth
+	box.Height = magnetWidth
+	# corner drill holes
+	cylinder1 = App.ActiveDocument.addObject("Part::Cylinder", "R1CylA")
+	cylinder2 = App.ActiveDocument.addObject("Part::Cylinder", "R1fCylB")
+	cylinder3 = App.ActiveDocument.addObject("Part::Cylinder", "R1fCylC")
+	cylinder4 = App.ActiveDocument.addObject("Part::Cylinder", "R1fCylD")
+	cylinder5 = App.ActiveDocument.addObject("Part::Cylinder", "R1pocketHole")
+	cylinder1.Placement = App.Placement(App.Vector(radius1*np.cos(angle)+np.cos(k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)-np.cos(k*angle+np.pi/4)*magnetWidth/np.sqrt(2), radius1*np.sin(angle)+np.sin(k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)-np.sin(k*angle+np.pi/4)*magnetWidth/np.sqrt(2), dz), App.Rotation(App.Vector(0,0,1),np.degrees(angle*k)))
+	cylinder2.Placement = App.Placement(App.Vector(radius1*np.cos(angle)+np.cos(-k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)-np.cos(-k*angle+np.pi/4)*magnetWidth/np.sqrt(2), radius1*np.sin(angle)-np.sin(-k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)+np.sin(-k*angle+np.pi/4)*magnetWidth/np.sqrt(2), dz), App.Rotation(App.Vector(0,0,1),np.degrees(angle*k)))
+	cylinder3.Placement = App.Placement(App.Vector(radius1*np.cos(angle)-np.cos(-k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)+np.cos(k*angle-np.pi/4)*magnetWidth/np.sqrt(2), radius1*np.sin(angle)+np.sin(-k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)-np.sin(-k*angle+np.pi/4)*magnetWidth/np.sqrt(2), dz), App.Rotation(App.Vector(0,0,1),np.degrees(angle*k)))
+	cylinder4.Placement = App.Placement(App.Vector(radius1*np.cos(angle)-np.cos(k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)+np.cos(k*angle+np.pi/4)*magnetWidth/np.sqrt(2), radius1*np.sin(angle)-np.sin(k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)+np.sin(k*angle+np.pi/4)*magnetWidth/np.sqrt(2), dz), App.Rotation(App.Vector(0,0,1),np.degrees(angle*k)))
+	cylinder5.Placement = App.Placement(App.Vector(radius1*np.cos(angle), radius1*np.sin(angle), 0), App.Rotation(App.Vector(0,0,1),np.degrees(angle*k)))
+	cylinder1.Radius = millDiameterCorner/2
+	cylinder2.Radius = millDiameterCorner/2
+	cylinder3.Radius = millDiameterCorner/2
+	cylinder4.Radius = millDiameterCorner/2
+	cylinder5.Radius = pocketHoleDiameter/2
+	cylinder1.Height = magnetWidth 
+	cylinder2.Height = magnetWidth 
+	cylinder3.Height = magnetWidth
+	cylinder4.Height = magnetWidth
+	cylinder5.Height = magnetWidth + dz
+
+# radius2
+for angle in magnetAngles2:
+	box = App.ActiveDocument.addObject("Part::Box", "magnetR2")
+	box.Placement = App.Placement(App.Vector(radius2*np.cos(angle)-np.cos(k*angle+np.pi/4)*magnetWidth/np.sqrt(2), radius2*np.sin(angle)-np.sin(k*angle+np.pi/4)*magnetWidth/np.sqrt(2), dz), App.Rotation(App.Vector(0,0,1),np.degrees(angle*k)))
+	box.Width = magnetWidth
+	box.Length = magnetWidth
+	box.Height = magnetWidth 
+	cylinder1 = App.ActiveDocument.addObject("Part::Cylinder", "R2CylA")
+	cylinder2 = App.ActiveDocument.addObject("Part::Cylinder", "R2CylB")
+	cylinder3 = App.ActiveDocument.addObject("Part::Cylinder", "R2CylC")
+	cylinder4 = App.ActiveDocument.addObject("Part::Cylinder", "R2CylD")
+	cylinder5 = App.ActiveDocument.addObject("Part::Cylinder", "R2pocketHole")
+	cylinder1.Placement = App.Placement(App.Vector(radius2*np.cos(angle)+np.cos(k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)-np.cos(k*angle+np.pi/4)*magnetWidth/np.sqrt(2), radius2*np.sin(angle)+np.sin(k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)-np.sin(k*angle+np.pi/4)*magnetWidth/np.sqrt(2), dz), App.Rotation(App.Vector(0,0,1),np.degrees(angle*k)))
+	cylinder2.Placement = App.Placement(App.Vector(radius2*np.cos(angle)+np.cos(-k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)-np.cos(-k*angle+np.pi/4)*magnetWidth/np.sqrt(2), radius2*np.sin(angle)-np.sin(-k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)+np.sin(-k*angle+np.pi/4)*magnetWidth/np.sqrt(2), dz), App.Rotation(App.Vector(0,0,1),np.degrees(angle*k)))
+	cylinder3.Placement = App.Placement(App.Vector(radius2*np.cos(angle)-np.cos(-k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)+np.cos(k*angle-np.pi/4)*magnetWidth/np.sqrt(2), radius2*np.sin(angle)+np.sin(-k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)-np.sin(-k*angle+np.pi/4)*magnetWidth/np.sqrt(2), dz), App.Rotation(App.Vector(0,0,1),np.degrees(angle*k)))
+	cylinder4.Placement = App.Placement(App.Vector(radius2*np.cos(angle)-np.cos(k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)+np.cos(k*angle+np.pi/4)*magnetWidth/np.sqrt(2), radius2*np.sin(angle)-np.sin(k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)+np.sin(k*angle+np.pi/4)*magnetWidth/np.sqrt(2), dz), App.Rotation(App.Vector(0,0,1),np.degrees(angle*k)))
+	cylinder5.Placement = App.Placement(App.Vector(radius2*np.cos(angle), radius2*np.sin(angle), 0), App.Rotation(App.Vector(0,0,1),np.degrees(angle*k)))		
+	cylinder1.Radius = millDiameterCorner/2
+	cylinder2.Radius = millDiameterCorner/2
+	cylinder3.Radius = millDiameterCorner/2
+	cylinder4.Radius = millDiameterCorner/2
+	cylinder5.Radius = pocketHoleDiameter/2
+	cylinder1.Height = magnetWidth 
+	cylinder2.Height = magnetWidth 
+	cylinder3.Height = magnetWidth 
+	cylinder4.Height = magnetWidth
+	cylinder5.Height = magnetWidth + dz
+
+"""
+# Uncomment if a third row of magnets at radius3 is present
+for angle in magnetAngles3:
+	box = App.ActiveDocument.addObject("Part::Box", "magnetR3")
+	box.Placement = App.Placement(App.Vector(radius3*np.cos(angle)-np.cos(k*angle+np.pi/4)*magnetWidth/np.sqrt(2), radius3*np.sin(angle)-np.sin(k*angle+np.pi/4)*magnetWidth/np.sqrt(2), dz), App.Rotation(App.Vector(0,0,1),np.degrees(angle*k)))
+	box.Width = magnetWidth
+	box.Length = magnetWidth
+	box.Height = magnetWidth 
+	cylinder1 = App.ActiveDocument.addObject("Part::Cylinder", "R3CylA")
+	cylinder2 = App.ActiveDocument.addObject("Part::Cylinder", "R3CylB")
+	cylinder3 = App.ActiveDocument.addObject("Part::Cylinder", "R3CylC")
+	cylinder4 = App.ActiveDocument.addObject("Part::Cylinder", "R3CylD")
+	cylinder5 = App.ActiveDocument.addObject("Part::Cylinder", "R3pocketHole")
+	cylinder1.Placement = App.Placement(App.Vector(radius3*np.cos(angle)+np.cos(k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)-np.cos(k*angle+np.pi/4)*magnetWidth/np.sqrt(2), radius3*np.sin(angle)+np.sin(k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)-np.sin(k*angle+np.pi/4)*magnetWidth/np.sqrt(2), dz), App.Rotation(App.Vector(0,0,1),np.degrees(angle*k)))
+	cylinder2.Placement = App.Placement(App.Vector(radius3*np.cos(angle)+np.cos(-k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)-np.cos(-k*angle+np.pi/4)*magnetWidth/np.sqrt(2), radius3*np.sin(angle)-np.sin(-k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)+np.sin(-k*angle+np.pi/4)*magnetWidth/np.sqrt(2), dz), App.Rotation(App.Vector(0,0,1),np.degrees(angle*k)))
+	cylinder3.Placement = App.Placement(App.Vector(radius3*np.cos(angle)-np.cos(-k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)+np.cos(k*angle-np.pi/4)*magnetWidth/np.sqrt(2), radius3*np.sin(angle)+np.sin(-k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)-np.sin(-k*angle+np.pi/4)*magnetWidth/np.sqrt(2), dz), App.Rotation(App.Vector(0,0,1),np.degrees(angle*k)))
+	cylinder4.Placement = App.Placement(App.Vector(radius3*np.cos(angle)-np.cos(k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)+np.cos(k*angle+np.pi/4)*magnetWidth/np.sqrt(2), radius3*np.sin(angle)-np.sin(k*angle+np.pi/4)*millOffsetCorner/np.sqrt(2)+np.sin(k*angle+np.pi/4)*magnetWidth/np.sqrt(2), dz), App.Rotation(App.Vector(0,0,1),np.degrees(angle*k)))
+	cylinder5.Placement = App.Placement(App.Vector(radius3*np.cos(angle), radius3*np.sin(angle), 0), App.Rotation(App.Vector(0,0,1),np.degrees(angle*k)))	
+	cylinder1.Radius = millDiameterCorner/2
+	cylinder2.Radius = millDiameterCorner/2
+	cylinder3.Radius = millDiameterCorner/2
+	cylinder4.Radius = millDiameterCorner/2
+	cylinder5.Radius = pocketHoleDiameter/2
+	cylinder1.Height = magnetWidth 
+	cylinder2.Height = magnetWidth 
+	cylinder3.Height = magnetWidth 
+	cylinder4.Height = magnetWidth 
+	cylinder5.Height = magnetWidth + dz 
+"""
+
+"""
+## Testing
+# reference magnet in the center
+angleTest = 0
+box = App.ActiveDocument.addObject("Part::Box", "refMagnet")
+box.Placement = App.Placement(App.Vector(0-np.cos(np.radians(angleTest)+np.pi/4)*magnetWidth/np.sqrt(2), 0-np.sin(np.radians(angleTest)+np.pi/4)*magnetWidth/np.sqrt(2), 0), App.Rotation(App.Vector(0,0,1),angleTest))
+box.Width = magnetWidth
+box.Length = magnetWidth
+box.Height = magnetWidth
+# drill holes in magnet pocket corners for testing
+cylinder1 = App.ActiveDocument.addObject("Part::Cylinder", "refCylinderA")
+cylinder2 = App.ActiveDocument.addObject("Part::Cylinder", "refCylinderB")
+cylinder3 = App.ActiveDocument.addObject("Part::Cylinder", "refCylinderC")
+cylinder4 = App.ActiveDocument.addObject("Part::Cylinder", "refCylinderD")
+cylinder1.Placement = App.Placement(App.Vector(np.cos(np.radians(angleTest)+np.pi/4)*millOffsetCorner/np.sqrt(2)-np.cos(np.radians(angleTest)+np.pi/4)*magnetWidth/np.sqrt(2), np.sin(np.radians(angleTest)+np.pi/4)*millOffsetCorner/np.sqrt(2)-np.sin(np.radians(angleTest)+np.pi/4)*magnetWidth/np.sqrt(2), 0), App.Rotation(App.Vector(0,0,1),angleTest))
+cylinder2.Placement = App.Placement(App.Vector(np.cos(np.radians(angleTest)+np.pi/4)*millOffsetCorner/np.sqrt(2)-np.cos(-np.radians(angleTest)+np.pi/4)*magnetWidth/np.sqrt(2), -np.sin(np.radians(angleTest)+np.pi/4)*millOffsetCorner/np.sqrt(2)+np.sin(-np.radians(angleTest)+np.pi/4)*magnetWidth/np.sqrt(2), 0), App.Rotation(App.Vector(0,0,1),angleTest))
+cylinder3.Placement = App.Placement(App.Vector(-np.cos(np.radians(angleTest)+np.pi/4)*millOffsetCorner/np.sqrt(2)+np.cos(np.radians(angleTest)-np.pi/4)*magnetWidth/np.sqrt(2), np.sin(np.radians(angleTest)+np.pi/4)*millOffsetCorner/np.sqrt(2)-np.sin(-np.radians(angleTest)+np.pi/4)*magnetWidth/np.sqrt(2), 0), App.Rotation(App.Vector(0,0,1),angleTest))
+cylinder4.Placement = App.Placement(App.Vector(-np.cos(np.radians(angleTest)+np.pi/4)*millOffsetCorner/np.sqrt(2)+np.cos(np.radians(angleTest)+np.pi/4)*magnetWidth/np.sqrt(2), -np.sin(np.radians(angleTest)+np.pi/4)*millOffsetCorner/np.sqrt(2)+np.sin(np.radians(angleTest)+np.pi/4)*magnetWidth/np.sqrt(2), 0), App.Rotation(App.Vector(0,0,1),angleTest))
+cylinder1.Radius = millDiameterCorner/2
+cylinder2.Radius = millDiameterCorner/2
+cylinder3.Radius = millDiameterCorner/2
+cylinder4.Radius = millDiameterCorner/2
+cylinder1.Height = magnetWidth 
+cylinder2.Height = magnetWidth 
+cylinder3.Height = magnetWidth 
+cylinder4.Height = magnetWidth 
+"""
+
+doc.recompute()
