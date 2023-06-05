@@ -1,0 +1,66 @@
+Pos. 	Quantity 	Item 									Unit price	Amount
+10 		1 			Front panel:GND.fpd						27.54 € 	27.54 €
+					Width: 200.00mm, Height: 43.00mm,
+					Thickness: 2.00mm, Material: Aluminum
+					raw, Color: Natural
+
+20 		1 			Front panel:cover.fpd					29.13 € 	29.13 €
+					Width: 200.00mm, Height: 184.00mm,
+					Thickness: 2.00mm, Material: Perspex,
+					Color: Clear
+
+30 		1 			Front panel:strip1M4.fpd				10.02 € 	10.02 €
+					Width: 10.00mm, Height: 46.00mm,
+					Thickness: 2.00mm, Material: Aluminum
+					raw, Color: Natural
+
+40 		3 			Front panel:strip3.fpd					11.95 € 	35.85 €
+					Width: 20.00mm, Height: 111.00mm,
+					Thickness: 2.00mm, Material: Aluminum
+					raw, Color: Natural
+
+50 		1 			Front panel:Bottom.fpd					82.65 € 	82.65 €
+					Width: 430.00mm, Height: 266.90mm,
+					Thickness: 3.00mm, Material: Aluminum
+					raw, Color: Natural
+
+60 		1 			Front panel:Vpos.fpd					17.96 €		17.96 €
+					Width: 160.00mm, Height: 18.00mm,
+					Thickness: 2.00mm, Material: Aluminum
+					raw, Color: Natural
+
+70 		1 			Front panel:Front.fpd					134.43 € 	134.43 €
+					Width: 426.70mm, Height: 128.40mm,
+					Thickness: 3.00mm, Material: Aluminum
+					anodized, Color: Natural
+
+80 		1 			Front panel:back.fpd					101.80 € 	101.80 €
+					Width: 431,35mm, Height: 130,50mm,
+					Thickness: 3,00mm, Material: Aluminum
+					anodized, Color: Natural
+
+90 		3 			Front panel:HeatSpreader.fpd			11.79 €		35.37 €
+					Width: 48,00mm, Height: 48,00mm,
+					Thickness: 1,50mm, Material: Aluminum
+					raw, Color: Natural
+
+100 	3 			Front panel:strip2.fpd					10.57 € 	31.71 €
+					Width: 12,00mm, Height: 66,00mm,
+					Thickness: 2,00mm, Material: Aluminum
+					raw, Color: Natural
+
+110 	1 			Front panel:Vneg.fpd					20.82 €		20.82 €
+					Width: 180,00mm, Height: 18,00mm,
+					Thickness: 2,00mm, Material: Aluminum
+					raw, Color: Natural
+
+120 	2 			Front panel:strip1M5.fpd				10.04 €		20.08 €
+					Width: 10,00mm, Height: 46,00mm,
+					Thickness: 2,00mm, Material: Aluminum
+					raw, Color: Natural
+
+In shopping cart: 					547.36 €
+Expedite fee:No surcharge 			0.00 €
+Shipping charges (estimated):		5.95 €
+
+Subtotal: 							553.31 €

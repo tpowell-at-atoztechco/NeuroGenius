@@ -1,0 +1,34 @@
+Mounting torque 0.75Nm heatsink etc.  //  power supply strips 1Nm // Elco's 1.2Nm
+Use brass screws for the power strips to reduce the contact resistance
+
+back panel screws M2.5 x 10  with Schroff 21100464
+front panel screws Schroff 21100464 + 21101101
+bottom to rods M3 x 6 cheese
+bottom to 3D printed ferrite holder M3 x 10 sunk and M3 nuts in the printed parts
+bottom to relays M3 x 10 sunk
+bottom to heatsink M3 x 6 sunk
+bottom to capacitor holders M3 x 10 sunk
+PCB to power strips M4 x 8 inbus. Use 2mm aluminium spacer rings on the bushings
+PCB to capacitor (2x) M5 x 10 philips
+
+power strip to power strip M4 x 8
+PCB to plastic spacer on heatsink M3 x 6 cheese use plastic washer on top of PCB for insulation
+GND bracket to GND strip and side panel M4 x 8
+GND plate to capacitor M5 x 10
+DC in connector M3 x 12 black
+
+thermalgrease should not create a conducting path between the heatspreader plate and the heatsink
+use thermal grease between the NTCs and the FET package for thermal contact
+
+The Gradient Filter can be mounted on the back of the amplifier on the 12mm standoffs that connect
+the GND of the PCB to the enclosure. Solid copper wires can be used to connect P1,3,5 to the
+X, Y and Z outputs of the amplifier.
+
+
+
+
+
+
+
+
+

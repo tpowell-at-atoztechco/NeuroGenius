@@ -1,0 +1,31 @@
+Testing and biasing
+
+First time power up
+- Leave the metal cover off the enclosure
+- Disconnect all outputs
+- Connect a symmetrical power supply of + and -12V and limit the current to 5A
+- Attach oscilloscope probes to the power supply to measure the ramping up of the voltage
+- Switch on the amplifier. 
+- Both supply voltages should ramp up in about 1 second and the fan should start.
+- Enable the amplifier with the push button and check for excessive supply current (<5A)
+
+
+Biasing
+- Connect a single gradient coil to the output of channel X
+- Turn the potentiometers anti clockwise until the current doesn't drop anymore and notice the current consumption of both power supplies. This is
+  at about 0.5A @ + and -13.0V. The potentiometers screws align nicely with the square holes of the metal strip above them.
+- The two potentiometers labeled P and N increase the Vgs of the P and N MOSFETs. Clockwise rotation increases the current.
+- Increase one of the potentiometers until the current from the powersupply starts to increase
+- Do the same with the other potentiometer
+- Turning the left potentiometer CW has the same effect on the offset as turning the right on CCW. Use this to set both the offset and bias current.
+- Measure the output voltage of the channel X current monitor or with a multimeter and balance the potentiometers such that the output current
+  is nulled and the supply currents increase by 0.2A relative to the start value. This should be done after the amplifier has warmed up for 5 min.
+- An even better way that makes use of an oscilloscope and a function generator is described in chapter 10.2.1 of the GA_DesignDoc.pdf  
+- Repeat for Y and Z with extra coils.
+
+
+
+lower one of the supply voltages at a time to test the Under Voltage Lock Out at 10.4V
+
+Check that the gain is about 15A/V
+

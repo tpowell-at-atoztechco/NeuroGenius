@@ -1,0 +1,3 @@
+Patially cloned from https://gitlab.com/osii-one.
+
+All credits towards the initial hardware design go to OpenSourceImaging.org.
