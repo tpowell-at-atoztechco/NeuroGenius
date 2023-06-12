@@ -1,9 +1,3 @@
-#if defined(UNICODE) && !defined(_UNICODE)
-    #define _UNICODE
-#elif defined(_UNICODE) && !defined(UNICODE)
-    #define UNICODE
-#endif
-
 #include <tchar.h>
 #include <windows.h>
 
@@ -11,83 +5,87 @@
 LRESULT CALLBACK WindowProcedure (HWND, UINT, WPARAM, LPARAM);
 
 /*  Make the class name into a global variable  */
-TCHAR szClassName[ ] = _T("CodeBlocksWindowsApp");
+TCHAR szClassName[ ] = _T("NeuroGeniusApp");
 
 int WINAPI WinMain (HINSTANCE hThisInstance,
                      HINSTANCE hPrevInstance,
                      LPSTR lpszArgument,
                      int nCmdShow)
 {
-    HWND hwnd;               /* This is the handle for our window */
-    MSG messages;            /* Here messages to the application are saved */
-    WNDCLASSEX wincl;        /* Data structure for the windowclass */
+    HWND hwnd;
+    MSG messages;
+    WNDCLASSEX wincl;
+    HMENU hMenu, hSubMenuFile, hSubMenuEdit, hSubMenuData, hSubMenuProject, hSubMenuMRImaging, hSubMenuHelp;
 
-    /* The Window structure */
+    /* Create the menu */
+    hMenu = CreateMenu();
+
+    /* Add 'File' menu */
+    hSubMenuFile = CreatePopupMenu();
+    AppendMenu(hSubMenuFile, MF_STRING, 1, _T("Open..."));
+    AppendMenu(hSubMenuFile, MF_STRING, 2, _T("Save"));
+    AppendMenu(hSubMenuFile, MF_SEPARATOR, 0, NULL);
+    AppendMenu(hSubMenuFile, MF_STRING, 3, _T("Exit"));
+    AppendMenu(hMenu, MF_STRING | MF_POPUP, (UINT)hSubMenuFile, _T("File"));
+
+    // Similarly, add the remaining menu and submenu items
+    // Edit, Data, Project, MR Imaging, Help
+
+    /* Register the window class, and if it fails quit the program */
     wincl.hInstance = hThisInstance;
     wincl.lpszClassName = szClassName;
-    wincl.lpfnWndProc = WindowProcedure;      /* This function is called by windows */
-    wincl.style = CS_DBLCLKS;                 /* Catch double-clicks */
+    wincl.lpfnWndProc = WindowProcedure;
+    wincl.style = CS_DBLCLKS;
     wincl.cbSize = sizeof (WNDCLASSEX);
-
-    /* Use default icon and mouse-pointer */
     wincl.hIcon = LoadIcon (NULL, IDI_APPLICATION);
     wincl.hIconSm = LoadIcon (NULL, IDI_APPLICATION);
     wincl.hCursor = LoadCursor (NULL, IDC_ARROW);
-    wincl.lpszMenuName = NULL;                 /* No menu */
-    wincl.cbClsExtra = 0;                      /* No extra bytes after the window class */
-    wincl.cbWndExtra = 0;                      /* structure or the window instance */
-    /* Use Windows's default colour as the background of the window */
+    wincl.lpszMenuName = NULL;
+    wincl.cbClsExtra = 0;
+    wincl.cbWndExtra = 0;
     wincl.hbrBackground = (HBRUSH) COLOR_BACKGROUND;
 
-    /* Register the window class, and if it fails quit the program */
     if (!RegisterClassEx (&wincl))
         return 0;
 
-    /* The class is registered, let's create the program*/
     hwnd = CreateWindowEx (
-           0,                   /* Extended possibilites for variation */
-           szClassName,         /* Classname */
-           _T("Code::Blocks Template Windows App"),       /* Title Text */
-           WS_OVERLAPPEDWINDOW, /* default window */
-           CW_USEDEFAULT,       /* Windows decides the position */
-           CW_USEDEFAULT,       /* where the window ends up on the screen */
-           544,                 /* The programs width */
-           375,                 /* and height in pixels */
-           HWND_DESKTOP,        /* The window is a child-window to desktop */
-           NULL,                /* No menu */
-           hThisInstance,       /* Program Instance handler */
-           NULL                 /* No Window Creation data */
+           0,
+           szClassName,
+           _T("NeuroGenius MR Image Acquisition & Development Project"),
+           WS_OVERLAPPEDWINDOW,
+           CW_USEDEFAULT,
+           CW_USEDEFAULT,
+           544,
+           375,
+           HWND_DESKTOP,
+           hMenu, // set menu to the window
+           hThisInstance,
+           NULL
            );
 
-    /* Make the window visible on the screen */
     ShowWindow (hwnd, nCmdShow);
 
-    /* Run the message loop. It will run until GetMessage() returns 0 */
     while (GetMessage (&messages, NULL, 0, 0))
     {
-        /* Translate virtual-key messages into character messages */
         TranslateMessage(&messages);
-        /* Send message to WindowProcedure */
         DispatchMessage(&messages);
     }
 
-    /* The program return-value is 0 - The value that PostQuitMessage() gave */
     return messages.wParam;
 }
 
-
-/*  This function is called by the Windows function DispatchMessage()  */
-
 LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    switch (message)                  /* handle the messages */
+    switch (message)
     {
-        case WM_DESTROY:
-            PostQuitMessage (0);       /* send a WM_QUIT to the message queue */
+        case WM_COMMAND:
+            // Handle menu selections here, using wParam to identify the selected menu item
             break;
-        default:                      /* for messages that we don't deal with */
+        case WM_DESTROY:
+            PostQuitMessage (0);
+            break;
+        default:
             return DefWindowProc (hwnd, message, wParam, lParam);
     }
-
     return 0;
 }
